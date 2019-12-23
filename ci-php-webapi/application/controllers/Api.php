@@ -19,8 +19,7 @@ class Api extends CI_Controller {
 		header('Access-Control-Allow-Headers: Accept,Accept-Language,Content-Language,Content-Type');
 
 		$formdata = json_decode(file_get_contents('php://input'), true);
-			
-			print($formdata);die;
+		
 		$email 		= $formdata['email'];
 		$password 	= $formdata['password'];
 
@@ -33,7 +32,6 @@ class Api extends CI_Controller {
 				'lastName' 	=> $user->lastName,
 				'token' 	=> $user->token
 			);
-			echo json_encode($user);
 		}
 		else {
 			$response = array();
