@@ -20,6 +20,7 @@ export class AuthService {
     return this.http.post<any>(`${this.serverUrl}api/login`, {email: email, password: password})
     .pipe(map(user => {
         if (user && user.token) {
+          console.log(user);
           localStorage.setItem('currentUser', JSON.stringify(user));
         }
       }),
@@ -27,17 +28,18 @@ export class AuthService {
     );
   }
 
- 
   isLoggedIn() {
     if (localStorage.getItem('currentUser')) {
+     console.log("inter login service"+localStorage.getItem('currentUser'));
       return true;
     }
+    console.log("inter login service false");
     return false;
   }
 
   getAuthorizationToken() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    console.log(currentUser);
+    console.log("inter here service"+currentUser.token);
     return currentUser.token;
   }
 
@@ -64,25 +66,3 @@ export class AuthService {
 
 }
 
-/*
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-
-@Injectable({
-  providedIn: 'root'
-})
-
-export class AuthService {
-
-  constructor(private _http: HttpClient) { }
-
-  login(data){
-        return this._http.post("http://localhost/angular7LTE_API/login.php",data).pipe(
-        map ((res: Response)=>{ return JSON.stringify(res) })
-      );
-    }
-  }
-  */
-
- 

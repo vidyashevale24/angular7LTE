@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Command } from 'protractor';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { AuthService } from '../auth.service';
-declare var $;
+declare var $: any;
 
 @Component({
   selector: 'app-login',
@@ -28,13 +28,13 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
 
     document.body.className = "hold-transition login-page";
-      $(() =>{
+   /*  $(() =>{
         $('input').iCheck({
           checkboxClass: 'icheckbox_square-blue',
           radioClass: 'iradio_square-blue',
           increaseArea: '20%' // optional
-        });
-      });
+        }); 
+    }); */
     this.loginForm = this.fb.group({
       email: ['', Validators.required],
       password: ['', Validators.required]
@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     this.authService.login(this.email.value, this.password.value).subscribe((data) => {
-       if (this.authService.isLoggedIn()) {
+       if (this.authService.isLoggedIn) {
           const redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/dashboard';
           this.router.navigate([redirect]);
         } else {
@@ -59,31 +59,4 @@ export class LoginComponent implements OnInit {
       error => this.error = error
     );
   }
-  /*
-  logForm={
-    email:"",
-    password:""
-  }
-  constructor(  private router : Router ,private authService: AuthService ) { }
-
-  ngOnInit() {
-    document.body.className = "hold-transition login-page";
-    $(() =>{
-      $('input').iCheck({
-        checkboxClass: 'icheckbox_square-blue',
-        radioClass: 'iradio_square-blue',
-        increaseArea: '20%' // optional
-      });
-    });
-  }
-  login(data){
-    console.log(data);
-    this.authService.login(data).subscribe((res)=>{
-      console.log(res);
-      this.router.navigate(['dashboard']);
-      if(res['result']){
-        this.router.navigate(['dashboard']);
-      } 
-    });
-  } */
-}
+ }

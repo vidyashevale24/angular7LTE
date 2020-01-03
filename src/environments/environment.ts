@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   //baseUrl: 'http://localhost/angular7LTE_API/'
-  baseUrl: 'http://localhost/ci-php-webapi/'
+  //baseUrl: 'http://localhost/ci-php-webapi/'
+  baseUrl: 'http://localhost/codeIgniter_jwt/'
 };
 /*
  * For easier debugging in development mode, you can import the following file

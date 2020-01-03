@@ -6,23 +6,33 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
-  /*canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return true;
-  }
-  canActivateChild(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return true;
-  }
-  canLoad(
-    route: Route,
-    segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
-    return true;
-  }*/
+export class AuthGuard implements CanActivate, CanActivateChild {
 
+  constructor(private authService: AuthService, private router: Router) {}
+
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): boolean {
+    const url: string = state.url;
+    return this.checkLogin(url);
+  }
+
+  canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    return this.canActivate(route, state);
+  }
+
+  checkLogin(url: string) {
+    if (this.authService.isLoggedIn()) {
+      return true;
+    }
+
+    this.authService.redirectUrl = url;
+
+    this.router.navigate(['/login'], {queryParams: { returnUrl: url }} );
+  }
+}
+/*
+export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(
@@ -48,7 +58,6 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     }
 
     this.authService.redirectUrl = url;
-
     this.router.navigate(['/login'], {queryParams: { returnUrl: url }} );
   }
-}
+}*/
