@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AuthService {
   serverUrl = environment.baseUrl;
   errorData: {};
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient ,private router:Router) { }
 
   redirectUrl: string;
 
@@ -45,6 +46,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('currentUser');
+    this.router.navigate(['/login']);
   }
 
   private handleError(error: HttpErrorResponse) {

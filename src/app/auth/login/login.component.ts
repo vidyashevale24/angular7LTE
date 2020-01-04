@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     this.authService.login(this.email.value, this.password.value).subscribe((data) => {
-       if (this.authService.isLoggedIn) {
+       if (this.authService.isLoggedIn()) {
           const redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/dashboard';
           this.router.navigate([redirect]);
         } else {
@@ -59,4 +59,6 @@ export class LoginComponent implements OnInit {
       error => this.error = error
     );
   }
+
+  
  }
