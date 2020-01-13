@@ -28,6 +28,10 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
 
     document.body.className = "hold-transition login-page";
+    const localId = localStorage.getItem('currentUser');
+    if(localId != null){
+      this.router.navigate(['/dashboard']);
+    } 
    /*  $(() =>{
         $('input').iCheck({
           checkboxClass: 'icheckbox_square-blue',
@@ -36,11 +40,12 @@ export class LoginComponent implements OnInit {
         }); 
     }); */
     this.loginForm = this.fb.group({
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
       password: ['', Validators.required]
     });
 
-    this.authService.logout();
+    //this.authService.logout();
+   
   }
 
   get email() { return this.loginForm.get('email'); }
